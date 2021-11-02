@@ -1,53 +1,66 @@
+// LANGUAGE: C
+// AUTHOR: Nathalia-b
+// GITHUB: https://github.com/nathalia-b
+
 #include <stdio.h>
-// Function to swap two elements
-//Code is Written By Krishna
-void swapElements(int *x, int *y)
-{
-    int temp = *x;
-    *x = *y;
-    *y = temp;
+
+int part(int vector[], int start, int end){
+
+	int pivo = vector[end]; 
+	int P = start; 
+	int i, aux; 
+
+	for(i = start; i<end; i++){
+		if(vector[i] <= pivo){	
+			int temp;
+			temp = vector[i];
+			vector[i] = vector[P];
+			vector[P] = temp;
+			P++; 
+
+		}
+	}
+
+	int temp;
+	temp = vector[end];
+	vector[end] = vector[P];
+	vector[P] = temp;
+	return P;
 }
-// Partition function
-int partition(int arr[], int lowIndex, int highIndex)
-{
-    int pivotElement = arr[highIndex];
-    int i = (lowIndex - 1);
-    for (int j = lowIndex; j <= highIndex - 1; j++)
+
+ void Quicksort(int vector[],int start,int end)
+ {
+    if(start<end)
     {
-        if (arr[j] <= pivotElement)
-        {
-            i++;
-            swapElements(&arr[i], &arr[j]);
-        }
-    }
-    swapElements(&arr[i + 1], &arr[highIndex]);
-    return (i + 1);
-}
-// QuickSort Function
-void quickSort(int arr[], int lowIndex, int highIndex)
-{
-    if (lowIndex < highIndex)
-    {
-        int pivot = partition(arr, lowIndex, highIndex);
-        // Separately sort elements before & after partition
-        quickSort(arr, lowIndex, pivot - 1);
-        quickSort(arr, pivot + 1, highIndex);
+         int P = part(vector,start,end);
+             Quicksort(vector,start,P-1);
+             Quicksort(vector,P+1,end);
+             
     }
 }
-// Function to print array
-void printArray(int arr[], int size)
-{
-    int i;
-    for (i = 0; i < size; i++)
-        printf("%d ", arr[i]);
+
+int main(){
+
+int size;
+printf("Insert how many numbers you want to sort:\t");
+scanf("%i", &size);
+int vector[size];
+printf("Insert your elements:\t");
+
+for(int i = 0; i<size; i++){
+	scanf("%i",&vector[i]);
 }
-// Main Function
-int main()
-{
-    int arr[] = {81, 27, 38, 99, 51, 5};
-    int n = sizeof(arr) / sizeof(arr[0]);
-    quickSort(arr, 0, n - 1);
-    printf("Sorted array: ");
-    printArray(arr, n);
-    return 0;
+printf("\n\tB E F O R E\n");
+for(int i = 0; i<size; i++){
+	printf("%i ", vector[i]);
+}
+printf("\n");
+Quicksort(vector,0,size-1);
+
+printf("\n\tA F T E R\n");
+for(int i = 0; i<size; i++){
+	printf("%i ", vector[i]);
+}
+printf("\n");
+
 }
